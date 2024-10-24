@@ -11,10 +11,14 @@
                 "assets"
             ],
             "@/*": [
-                "./src/components/*"
+                "./src/components/*",
+                "./*"
             ],
             "~/*": [
                 "./src/utils/*"
+            ],
+            "tailwind.config": [
+                "./tailwind.config.js"
             ]
         }
     },
