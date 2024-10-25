@@ -9,6 +9,8 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from 'src/redux/store';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -30,13 +32,16 @@ export default function RootLayout() {
     }
 
     return (
-        <GluestackUIProvider mode="light">
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack>
-                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                    <Stack.Screen name="+not-found" />
-                </Stack>
-            </ThemeProvider>
-        </GluestackUIProvider>
+        <Provider store={store}>
+            <GluestackUIProvider mode="system">
+                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                    <Stack screenOptions={{ headerShown: false }}>
+                        <Stack.Screen name="(tabs)" />
+                        <Stack.Screen name="(auth)" />
+                        <Stack.Screen name="+not-found" />
+                    </Stack>
+                </ThemeProvider>
+            </GluestackUIProvider>
+        </Provider>
     );
 }
