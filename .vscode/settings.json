@@ -7,13 +7,15 @@
     },
     "typescript.preferences.preferTypeOnlyAutoImports": true,
     "tailwindCSS.experimental.classRegex": [
-      ["tva\\((([^()]*|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+        ["tva\\(([^)]*)\\)", "{?\\s?[\\w].*:\\s*?[\"'`]([^\"'`]*).*?,?\\s?}?"]
     ],
     "cSpell.words": [
         "Astrick",
         "clsx",
+        "Entypo",
         "extrablack",
         "Favourite",
+        "Fontisto",
         "gluestack",
         "hookform",
         "Ionicons",
@@ -27,6 +29,7 @@
         "reduxjs",
         "roboto",
         "Tamagui",
-        "unistyles"
+        "unistyles",
+        "Zocial"
     ]
 }

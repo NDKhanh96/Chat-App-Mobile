@@ -11,8 +11,7 @@
                 "assets"
             ],
             "@/*": [
-                "./src/components/*",
-                "./*"
+                "./src/components/*"
             ],
             "~/*": [
                 "./src/utils/*"

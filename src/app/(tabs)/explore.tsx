@@ -4,8 +4,8 @@ import { Image, Platform, StyleSheet } from 'react-native';
 import { Collapsible } from '@/Collapsible';
 import { ExternalLink } from '@/ExternalLink';
 import ParallaxScrollView from '@/ParallaxScrollView';
-import { ThemedText } from '@/ThemedText';
-import { ThemedView } from '@/ThemedView';
+import { ThemedText } from '@/theme-wrapper/ThemedText';
+import { ThemedView } from '@/theme-wrapper/ThemedView';
 
 export default function TabTwoScreen() {
     return (
