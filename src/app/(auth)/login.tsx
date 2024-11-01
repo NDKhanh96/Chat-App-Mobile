@@ -9,9 +9,12 @@ import { Input, InputField, InputSlot } from '@/ui/input';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Text, useColorScheme, type ColorSchemeName } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction } from 'src/redux/slices/auth.slice';
+import type { AppDispatch, RootState } from 'src/redux/store';
 import { z } from 'zod';
 import { Colors } from '~/constants/Colors';
 import { loginSchema } from '~/form-schema';
@@ -19,6 +22,10 @@ import { loginSchema } from '~/form-schema';
 export default function LoginScreen(): React.JSX.Element {
     const colorScheme: ColorSchemeName = useColorScheme();
     const themedColorIcon: string = Colors[colorScheme ?? 'light'].icon;
+
+    const dispatch: AppDispatch = useDispatch();
+    const { token } = useSelector((state: RootState) => state.auth);
+
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const {
@@ -27,6 +34,10 @@ export default function LoginScreen(): React.JSX.Element {
         formState: { errors, isSubmitting },
     } = useForm<z.infer<typeof loginSchema>>({ resolver: zodResolver(loginSchema) });
 
+    useEffect(() => {
+        router.navigate('/(tabs)');
+    }, [token]);
+
     const handleShowPassword = (): void => {
         setShowPassword((showState: boolean): boolean => {
             return !showState;
@@ -34,8 +45,7 @@ export default function LoginScreen(): React.JSX.Element {
     };
 
     const handleLogin = async (data: z.infer<typeof loginSchema>) => {
-        await new Promise((resolve) => setTimeout(resolve, 10000));
-        console.log(data);
+        dispatch(loginAction(data));
     };
 
     return (
