@@ -1,3 +1,13 @@
+import { AntDesign, Feather } from '@expo/vector-icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+import { useCallback, useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Text, useColorScheme, type ColorSchemeName } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { z } from 'zod';
+
 import { DividerLine } from '@/auth/DividerLine';
 import { ValidateErrorText } from '@/common/ValidateErrorText';
 import { ThemedView } from '@/theme-wrapper/ThemedView';
@@ -6,16 +16,8 @@ import { Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '@/ui/c
 import { Heading } from '@/ui/heading';
 import { CheckIcon } from '@/ui/icon';
 import { Input, InputField, InputSlot } from '@/ui/input';
-import { AntDesign, Feather } from '@expo/vector-icons';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Text, useColorScheme, type ColorSchemeName } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { loginAction } from 'src/redux/slices/auth.slice';
 import type { AppDispatch, RootState } from 'src/redux/store';
-import { z } from 'zod';
 import { Colors } from '~/constants/Colors';
 import { loginSchema } from '~/form-schema';
 
@@ -34,9 +36,17 @@ export default function LoginScreen(): React.JSX.Element {
         formState: { errors, isSubmitting },
     } = useForm<z.infer<typeof loginSchema>>({ resolver: zodResolver(loginSchema) });
 
-    useEffect(() => {
+    const handleWhenLoginSuccess = useCallback(async (): Promise<void> => {
+        const { accessToken, refreshToken } = token;
+
+        await SecureStore.setItemAsync('accessToken', accessToken);
+        await SecureStore.setItemAsync('refreshToken', refreshToken);
         router.navigate('/(tabs)');
     }, [token]);
+
+    useEffect(() => {
+        handleWhenLoginSuccess();
+    }, [handleWhenLoginSuccess]);
 
     const handleShowPassword = (): void => {
         setShowPassword((showState: boolean): boolean => {
