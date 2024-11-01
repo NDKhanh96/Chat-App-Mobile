@@ -9,6 +9,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import { Provider } from 'react-redux';
 import { store } from 'src/redux/store';
 
@@ -33,15 +34,17 @@ export default function RootLayout() {
 
     return (
         <Provider store={store}>
-            <GluestackUIProvider mode="system">
-                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                    <Stack screenOptions={{ headerShown: false }}>
-                        <Stack.Screen name="(tabs)" />
-                        <Stack.Screen name="(auth)" />
-                        <Stack.Screen name="+not-found" />
-                    </Stack>
-                </ThemeProvider>
-            </GluestackUIProvider>
+            <RootSiblingParent>
+                <GluestackUIProvider mode="system">
+                    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                        <Stack screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="(tabs)" />
+                            <Stack.Screen name="(auth)" />
+                            <Stack.Screen name="+not-found" />
+                        </Stack>
+                    </ThemeProvider>
+                </GluestackUIProvider>
+            </RootSiblingParent>
         </Provider>
     );
 }

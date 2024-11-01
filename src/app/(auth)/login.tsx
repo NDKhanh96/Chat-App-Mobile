@@ -16,7 +16,8 @@ import { Checkbox, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '@/ui/c
 import { Heading } from '@/ui/heading';
 import { CheckIcon } from '@/ui/icon';
 import { Input, InputField, InputSlot } from '@/ui/input';
-import { loginAction } from 'src/redux/slices/auth.slice';
+import Toast from 'react-native-root-toast';
+import { loginAction, setErrorMessage } from 'src/redux/slices/auth.slice';
 import type { AppDispatch, RootState } from 'src/redux/store';
 import { Colors } from '~/constants/Colors';
 import { loginSchema } from '~/form-schema';
@@ -26,7 +27,14 @@ export default function LoginScreen(): React.JSX.Element {
     const themedColorIcon: string = Colors[colorScheme ?? 'light'].icon;
 
     const dispatch: AppDispatch = useDispatch();
-    const { token } = useSelector((state: RootState) => state.auth);
+    const { token, errorMessage } = useSelector((state: RootState) => state.auth);
+
+    useEffect(() => {
+        if (errorMessage) {
+            Toast.show(errorMessage);
+            dispatch(setErrorMessage(''));
+        }
+    }, [dispatch, errorMessage]);
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
