@@ -47,9 +47,18 @@ export default function LoginScreen(): React.JSX.Element {
     const handleWhenLoginSuccess = useCallback(async (): Promise<void> => {
         const { accessToken, refreshToken } = token;
 
-        await SecureStore.setItemAsync('accessToken', accessToken);
-        await SecureStore.setItemAsync('refreshToken', refreshToken);
-        router.navigate('/(tabs)');
+        if (accessToken) {
+            await SecureStore.setItemAsync('accessToken', accessToken);
+        }
+        if (refreshToken) {
+            await SecureStore.setItemAsync('refreshToken', refreshToken);
+        }
+
+        const accessTokenFromSecureStore: string | null = await SecureStore.getItemAsync('accessToken');
+
+        if (accessTokenFromSecureStore) {
+            router.navigate('/(tabs)');
+        }
     }, [token]);
 
     useEffect(() => {
