@@ -33,7 +33,7 @@ export default function RootLayout() {
     }
 
     return (
-        <Provider store={store}>
+        <Provider store={store()}>
             <RootSiblingParent>
                 <GluestackUIProvider mode="system">
                     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
